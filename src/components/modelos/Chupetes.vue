@@ -1,9 +1,17 @@
 <template>
-    <div class="row">
-        <div id="dibujo"></div>
+    <div class="row text-center" style="background-color: lightgrey;">
+        <div id="dibujo" class="my-3"></div>
     </div>
-    <div class="row">
-        <div class="row">
+    <div class="container mt-3">
+        <div class="form-label my-0"><strong>GRÁFICO</strong></div>
+        <hr class="my-2">
+        <div class="row mb-3 justify-content-between">
+            <div class="col-3">
+                <div class="input-group input-group-sm mb-3">
+                    <input type="button" class="btn btn-success" value="Descargar" @click="this.descargar()">
+                    <input type="text" v-model.lazy="this.descarga" class="form-control">
+                </div>
+            </div>
             <div class="col-2">
                 <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text" id="grosor">grosor</span>
@@ -18,13 +26,13 @@
             </div>
             <div class="col-2">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="grosor">radio</span>
+                    <span class="input-group-text" id="grosor">radio circulos</span>
                     <input v-model.lazy="this.circulo.radio" type="number" class="form-control">
                 </div>
             </div>
             <div v-if="this.z == undefined" class="col-2">
                 <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="grosor">color circulo</span>
+                    <span class="input-group-text" id="grosor">color circulos</span>
                     <input v-model.lazy="this.circulo.color" type="text" class="form-control">
                 </div>
             </div>
@@ -34,15 +42,46 @@
                     <input v-model.lazy="this.grafico.espaciado" type="number" class="form-control">
                 </div>
             </div>
-            <div class="col-2">
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="grosor">ticks x</span>
-                    <input v-model.lazy="this.grafico.ticks" type="number" class="form-control">
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-5">
+                <div class="form-label my-0"><strong>EJE X</strong></div>
+                <hr class="my-2">
+                <div class="row justify-content-between">
+                    <div class="col-5">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="grosor">tamaño</span>
+                            <input v-model.lazy="this.grafico.tamaniox" type="number" class="form-control">
+                            <span class="input-group-text" id="grosor">pt</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="grosor">ticks</span>
+                            <input v-model.lazy="this.grafico.ticks" type="number" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="form-label my-0"><strong>EJE Y</strong></div>
+                <hr class="my-2">
+                <div class="row justify-content-between">
+                    <div class="col-5">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="grosor">tamaño</span>
+                            <input v-model.lazy="this.grafico.tamanioy" type="number" class="form-control">
+                            <span class="input-group-text" id="grosor">pt</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="my-5"></div>
         <EtiquetasControl v-if="this.z" v-model="etiquetas_parametros"/>
+        <div class="my-5"></div>
         <TituloControl v-model="titulo_parametros"/>
+        <div class="my-5"></div>
         <CuadriculaControl v-model="cuadricula"/>
     </div>
 </template>
@@ -79,7 +118,7 @@
             },
             linea: {
                 handler(nuevos, viejos) {
-                this.dibujar()
+                    this.dibujar()
                 },
                 deep: true
             },
@@ -101,6 +140,12 @@
                 },
                 deep: true
             },
+            estetica(nuevo, viejo) {
+                this.etiquetas_parametros = {
+                    ...this.etiquetas_parametros,
+                    ['estetica'] : this.estetica
+                }
+            }
         },
     
         data() {
@@ -110,6 +155,7 @@
                     y: 100,
                     espaciado : 30,
                     radio: 10,
+                    tamanio : 14,
                     estetica : this.estetica
                 },
                 linea : {
@@ -117,8 +163,10 @@
                     color : 'grey',
                 },
                 grafico: {
-                    espaciado : 10,
-                    ticks : 50
+                    espaciado : 0,
+                    ticks : 50,
+                    tamaniox : 11,
+                    tamanioy : 11
                 },
                 circulo : {
                     radio : 5,
@@ -133,10 +181,12 @@
                     x : 320,
                     y : 50,
                     tamanio : 14,
-                    texto : "un gráfico de lineas",
+                    texto : "un gráfico de chupetes",
                     negrita : true,
-                    cursiva : true
-                }
+                    cursiva : true,
+                    color : 'black'
+                },
+                descarga : 'chupetes.png'
             }
         },
     
@@ -150,21 +200,23 @@
             ...mapActions(controles, {
                     leyenda : 'leyenda',
                     dibujar_titulo : 'titulo',
-                    dibujar_cuadricula : 'cuadricula'
+                    dibujar_cuadricula : 'cuadricula',
+                    descargar_svg : 'descargar'
                 }),
     
             descargar() {
-                download();
+                this.descargar_svg(document.querySelector('svg'), this.descarga);
             },
             
             nuevo_svg() {
                 this.resetear();
                 return d3.select("#dibujo")
                     .append('svg')
+                    .style('background-color', 'white')
                     .attr('width', this.ancho + this.margen.izquierda + this.margen.derecha)
                     .attr('height', this.alto + this.margen.techo + this.margen.piso)
                     .append('g')
-                    .attr('transform', `translate(${[this.margen.izquierda, this.margen.techo]})`)
+                    .attr('transform', `translate(${[this.margen.izquierda, this.margen.techo]})`);
             },
     
             resetear() {
@@ -180,13 +232,19 @@
             ejey() {
                 return d3.scaleBand()
                 .domain([
-                    ...new Set(this.df.map(f => f[this.y]))].filter(d => this.etiquetas_parametros.estetica[d].mostrar).map(d => this.etiquetas_parametros.estetica[d].nombre))
+                    ...new Set(this.df.filter(d => this.etiquetas_parametros.estetica[d[this.y]].mostrar).map(d => this.etiquetas_parametros.estetica[d[this.y]].nombre))])
                 .range([this.margen.techo, this.alto - this.margen.piso])
                 .padding(1)
             },
             
             dibujo_x(svg, eje) {
-                let _ejex = g => g.attr("class", "xAxis").attr("transform", `translate(0,${this.alto - this.margen.piso})`).call(d3.axisBottom(eje).ticks(this.ancho / this.grafico.ticks).tickSizeOuter(0));
+                let _ejex = g => g
+                .attr("class", "xAxis")
+                .style("font", String(this.grafico.tamaniox) + "pt sans serif")
+                .attr("transform", `translate(0,${this.alto - this.margen.piso})`)
+                .call(d3.axisBottom(eje).ticks(this.ancho / this.grafico.ticks)
+                .tickSizeOuter(0));
+
                 svg.append('g').call(_ejex);
             },
     
@@ -196,7 +254,8 @@
                 .attr("transform",`translate(${this.margen.izquierda},0)`)
                 .call(d3.axisLeft(eje))
                 .selectAll('text')
-                    .attr('class', 'h6')
+                    // .attr('class', 'h4')
+                    .style("font", String(this.grafico.tamanioy) + "pt sans serif")
                     .attr("transform", "translate(-10,0)rotate(-25)")
                     .style("text-anchor", "end");
                 svg.append('g').call(_ejey);
@@ -236,10 +295,10 @@
                             .data(df_grupo)
                             .enter()
                             .append('line')
-                                .attr('x1', (d) => x(d.freq) )
+                                .attr('x1', (d) => x(d[this.x]) )
                                 .attr('x2', (d) => x(0) )
-                                .attr('y1', (d) => y(this.etiquetas_parametros.estetica[d.diario].nombre) + i * espaciado - offset)
-                                .attr('y2', (d) => y(this.etiquetas_parametros.estetica[d.diario].nombre) + i * espaciado - offset)
+                                .attr('y1', (d) => y(this.etiquetas_parametros.estetica[d[this.y]].nombre) + i * espaciado - offset)
+                                .attr('y2', (d) => y(this.etiquetas_parametros.estetica[d[this.y]].nombre) + i * espaciado - offset)
                                 .attr('stroke', (d) => this.etiquetas_parametros.estetica[grupo].color)
                                 .attr('stroke-width', this.linea.grosor)
 
@@ -247,8 +306,8 @@
                             .data(df_grupo)
                             .enter()
                             .append("circle")
-                                .attr("cx", (d) => x(d.freq))
-                                .attr("cy", (d) => y(this.etiquetas_parametros.estetica[d.diario].nombre) + i * espaciado - offset)
+                                .attr("cx", (d) => x(d[this.x]))
+                                .attr("cy", (d) => y(this.etiquetas_parametros.estetica[d[this.y]].nombre) + i * espaciado - offset)
                                 .attr("r", this.circulo.radio)
                                 .style("fill", (d) => this.etiquetas_parametros.estetica[grupo].color)
 
@@ -259,16 +318,17 @@
                     this.etiquetas_parametros.x,
                     this.etiquetas_parametros.y, 
                     this.etiquetas_parametros.espaciado,
-                    this.etiquetas_parametros.radio)
+                    this.etiquetas_parametros.radio,
+                    this.etiquetas_parametros.tamanio)
                 } else {
                     svg.selectAll('lineas')
                     .data(this.df)
                     .enter()
                     .append('line')
-                        .attr('x1', (d) => x(d.freq) )
+                        .attr('x1', (d) => x(d[this.x]) )
                         .attr('x2', (d) => x(0) )
-                        .attr('y1', (d) => y(this.etiquetas_parametros.estetica[d.diario].nombre) )
-                        .attr('y2', (d) => y(this.etiquetas_parametros.estetica[d.diario].nombre) )
+                        .attr('y1', (d) => y(this.etiquetas_parametros.estetica[d[this.y]].nombre) )
+                        .attr('y2', (d) => y(this.etiquetas_parametros.estetica[d[this.y]].nombre) )
                         .attr('stroke', this.linea.color)
                         .attr('stroke-width', this.linea.grosor)
 
@@ -276,8 +336,8 @@
                     .data(this.df)
                     .enter()
                     .append("circle")
-                        .attr("cx", (d) => x(d.freq))
-                        .attr("cy", (d) => y(this.etiquetas_parametros.estetica[d.diario].nombre))
+                        .attr("cx", (d) => x(d[this.x]))
+                        .attr("cy", (d) => y(this.etiquetas_parametros.estetica[d[this.y]].nombre))
                         .attr("r", this.circulo.radio)
                         .style("fill", this.circulo.color)
                 }
@@ -286,7 +346,8 @@
                 this.titulo_parametros.texto,
                 this.titulo_parametros.x,
                 this.titulo_parametros.y,
-                this.titulo_parametros.tamanio)}
+                this.titulo_parametros.tamanio,
+                this.titulo_parametros.color)}
         }
     }
     </script>

@@ -1,12 +1,22 @@
 <template>
-    <div class="row">
-        <div id="dibujo"></div>
+    <div class="row text-center" style="background-color: lightgrey;">
+        <div id="dibujo" class="my-3"></div>
     </div>
-        <div class="row">
+    <div class="container mt-3">
+        <div class="form-label my-0"><strong>GRÁFICO</strong></div>
+        <hr class="my-2">
+        <div class="row mb-3 justify-content-left">
+            <div class="col-3">
+                <div class="input-group input-group-sm mb-3">
+                    <input type="button" class="btn btn-success" value="Descargar" @click="this.descargar()">
+                    <input type="text" v-model.lazy="this.descarga" class="form-control">
+                </div>
+            </div>
             <div class="col-2">
                 <div class="input-group input-group-sm mb-3">
                     <span class="input-group-text" id="grosor">grosor</span>
-                    <input v-model="this.linea.grosor" type="number" class="form-control">
+                    <input v-model.lazy="this.linea.grosor" type="number" class="form-control">
+                    <span class="input-group-text" id="grosor">px</span>
                 </div>
             </div>
             <div v-if="!this.z" class="col-2">
@@ -21,34 +31,66 @@
                     <input v-model="this.linea.suavizado" class="form-check-input" type="checkbox">
                 </div>
             </div>
-            <div class="col-2">
-                <div class="form-check form-switch">
-                    <label class="form-check-label">eje y derecha</label>
-                    <input v-model="this.grafico.ejey_derecha" class="form-check-input" type="checkbox">
+        </div>
+        <div class="row justify-content-between">
+            <div class="col-5">
+                <div class="form-label my-0"><strong>EJE X</strong></div>
+                <hr class="my-2">
+                <div class="row justify-content-between">
+                    <div class="col-4">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="grosor">tamaño</span>
+                            <input v-model.lazy="this.grafico.tamaniox" type="number" class="form-control">
+                            <span class="input-group-text" id="grosor">pt</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="grosor">ticks</span>
+                            <input v-model.lazy="this.grafico.ticks.x" type="number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-check form-switch">
+                            <label class="form-check-label">derecha</label>
+                            <input v-model="this.grafico.ejey_derecha" class="form-check-input" type="checkbox">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-2">
-                <div class="form-check form-switch">
-                    <label class="form-check-label">eje x arriba</label>
-                    <input v-model="this.grafico.ejex_arriba" class="form-check-input" type="checkbox">
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="grosor">ticks x</span>
-                    <input v-model.lazy="this.grafico.ticks.x" type="number" class="form-control">
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text" id="grosor">ticks y</span>
-                    <input v-model.lazy="this.grafico.ticks.y" type="number" class="form-control">
+            <div class="col-5">
+                <div class="form-label my-0"><strong>EJE Y</strong></div>
+                <hr class="my-2">
+                <div class="row justify-content-between">
+                    <div class="col-4">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="grosor">tamaño</span>
+                            <input v-model.lazy="this.grafico.tamanioy" type="number" class="form-control">
+                            <span class="input-group-text" id="grosor">pt</span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="grosor">ticks</span>
+                            <input v-model.lazy="this.grafico.ticks.y" type="number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="form-check form-switch">
+                            <label class="form-check-label">arriba</label>
+                            <input v-model="this.grafico.ejex_arriba" class="form-check-input" type="checkbox">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="my-5"></div>
         <EtiquetasControl v-if="this.z" v-model="etiquetas_parametros"/>
+        <div class="my-5"></div>
         <TituloControl v-model="titulo_parametros"/>
+        <div class="my-5"></div>
         <CuadriculaControl v-model="cuadricula"/>
+    </div>
 </template>
 
 <script>
@@ -88,13 +130,13 @@ export default {
         },
         grafico: {
             handler(nuevos, viejos) {
-            this.dibujar()
+                this.dibujar()
             },
             deep: true
         },
         cuadricula: {
             handler(nuevos, viejos) {
-            this.dibujar()
+                this.dibujar()
             },
             deep: true
         },
@@ -107,6 +149,7 @@ export default {
                 y: 100,
                 espaciado : 30,
                 radio: 10,
+                tamanio : 14,
                 estetica : this.estetica
             },
             grafico: {
@@ -115,7 +158,9 @@ export default {
                 ticks : {
                     x : 150,
                     y : 40
-                }            
+                },
+                tamaniox : 11,
+                tamanioy : 11  
             },
             cuadricula : {
                 mostrar : false,
@@ -138,7 +183,8 @@ export default {
                 fondo : null,
                 base : null,
                 altura : null
-            }
+            },
+            descarga : 'lineas.png'
         }
     },
 
@@ -152,17 +198,19 @@ export default {
         ...mapActions(controles, {
                 leyenda : 'leyenda',
                 dibujar_titulo : 'titulo',
-                dibujar_cuadricula : 'cuadricula'
+                dibujar_cuadricula : 'cuadricula',
+                descargar_svg : 'descargar'
             }),
 
-        descargar() {
-            download();
-        },
+            descargar() {
+                this.descargar_svg(document.querySelector('svg'), this.descarga);
+            },
         
         nuevo_svg() {
             this.resetear();
             return d3.select("#dibujo")
                 .append('svg')
+                .style('background-color', 'white')
                 .attr('width', this.ancho + this.margen.izquierda + this.margen.derecha)
                 .attr('height', this.alto + this.margen.techo + this.margen.piso)
                 .append('g')
@@ -188,9 +236,19 @@ export default {
         dibujo_x(svg, eje) {
             let ejex = null
             if (this.grafico.ejex_arriba) {
-                ejex = g => g.attr("class", "xAxis").attr("transform", `translate(0,${this.margen.techo})`).call(d3.axisTop(eje).ticks(this.ancho / this.grafico.ticks.x).tickSizeOuter(0));
+                ejex = g => g
+                .attr("class", "xAxis")
+                .style("font", String(this.grafico.tamaniox) + "pt sans serif")
+                .attr("transform", `translate(0,${this.margen.techo})`)
+                .call(d3.axisTop(eje).ticks(this.ancho / this.grafico.ticks.x)
+                .tickSizeOuter(0));
             } else {
-                ejex = g => g.attr("class", "xAxis").attr("transform", `translate(0,${this.alto - this.margen.piso})`).call(d3.axisBottom(eje).ticks(this.ancho / this.grafico.ticks.x).tickSizeOuter(0));
+                ejex = g => g
+                .attr("class", "xAxis")
+                .style("font", String(this.grafico.tamaniox) + "pt sans serif")
+                .attr("transform", `translate(0,${this.alto - this.margen.piso})`)
+                .call(d3.axisBottom(eje).ticks(this.ancho / this.grafico.ticks.x)
+                .tickSizeOuter(0));
             }
             svg.append('g').call(ejex);
         },
@@ -198,9 +256,17 @@ export default {
         dibujo_y(svg, eje) {
             let ejey = null
             if (this.grafico.ejey_derecha) {
-                ejey = g => g.attr("class", "yAxis").attr("transform",`translate(${this.ancho - this.margen.derecha},${this.margen.techo - this.margen.piso})`).call(d3.axisRight(eje).ticks(this.alto / this.grafico.ticks.y))
+                ejey = g => g
+                .attr("class", "yAxis")
+                .style("font", String(this.grafico.tamanioy) + "pt sans serif")
+                .attr("transform",`translate(${this.ancho - this.margen.derecha},${this.margen.techo - this.margen.piso})`)
+                .call(d3.axisRight(eje).ticks(this.alto / this.grafico.ticks.y))
             } else {
-                ejey = g => g.attr("class", "yAxis").attr("transform",`translate(${this.margen.izquierda},${this.margen.techo - this.margen.piso})`).call(d3.axisLeft(eje).ticks(this.alto / this.grafico.ticks.y))
+                ejey = g => g
+                .attr("class", "yAxis")
+                .style("font", String(this.grafico.tamanioy) + "pt sans serif")
+                .attr("transform",`translate(${this.margen.izquierda},${this.margen.techo - this.margen.piso})`)
+                .call(d3.axisLeft(eje).ticks(this.alto / this.grafico.ticks.y))
             }
             svg.append('g').call(ejey);
         },
@@ -247,7 +313,8 @@ export default {
                 this.etiquetas_parametros.x,
                 this.etiquetas_parametros.y, 
                 this.etiquetas_parametros.espaciado,
-                this.etiquetas_parametros.radio)
+                this.etiquetas_parametros.radio,
+                this.etiquetas_parametros.tamanio)
             } else {
                 svg.append('path')
                     .attr('fill', 'none')

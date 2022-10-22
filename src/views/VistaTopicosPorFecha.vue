@@ -1,8 +1,11 @@
 <template>
 
-    <div class="input-group mb-3">
-        <span class="input-group-text">Path de csv a visualizar</span>
-        <input v-model.lazy="path_csv" type="text" class="form-control">
+    <div class="container">
+        <div class="input-group mb-3">
+            <span class="input-group-text">Path de csv a visualizar</span>
+            <input v-model.lazy="path_csv" type="text" class="form-control">
+        </div>
+        <lienzo-control v-if="this.df" v-model="this.controles.lienzo"/>
     </div>
 
     <lineas
@@ -11,14 +14,15 @@
     x="fecha"
     y="freq"
     z="topico"
-    :margen="this.margen"
-    :alto="this.alto"
-    :ancho="this.ancho"
+    :margen="this.controles.lienzo.margen"
+    :alto="this.controles.lienzo.alto"
+    :ancho="this.controles.lienzo.ancho"
     :estetica="this.estetica"/>
 </template>
 
 <script>
 
+import LienzoControl from '../components/controles/LienzoControl.vue'
 import Lineas from '../components/modelos/Lineas.vue'
 
 import * as d3 from 'd3';
@@ -29,24 +33,34 @@ import { mapState } from 'pinia'
 
 export default {
 
-    components: { Lineas },
+    components: { Lineas, LienzoControl },
 
     watch: {
         path_csv(nuevo, viejo) {
             this.leer_csv();
-        }
+        },
+        controles : {
+            handler(nuevos, viejos) {
+                this.df = this.df.filter(d => true)
+            },
+            deep: true
+        },
     },
 
     data() {
         return {
-            margen :{
-                techo: 20,
-                derecha: 20,
-                piso: 30,
-                izquierda: 30
+            controles: {
+                lienzo: {
+                    alto : 700,
+                    ancho : 900,
+                    margen :{
+                        techo: 20,
+                        derecha: 20,
+                        piso: 30,
+                        izquierda: 80
+                    }
+                },
             },
-            alto : 700,
-            ancho : 900,
             df : null,
             path_csv : '',
             topicos : null

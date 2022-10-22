@@ -11,6 +11,7 @@ import locales  from './assets/locales.json';
 
 import * as d3 from 'd3';
 d3.timeFormatDefaultLocale(locales.locale_es);
+d3.formatDefaultLocale(locales.locale_es);
 
 const app = createApp(App);
 

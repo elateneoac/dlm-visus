@@ -1,9 +1,6 @@
 <template>
-    <div class="row mb-1">
-        <div class="col-2">
-            <span class="h5">Título</span>
-        </div>
-    </div>
+    <span class="form-label"><strong>TÍTULO</strong></span>
+    <hr class="my-2">
     <div class="row">
         <div class="col-6">
             <div class="input-group input-group-sm mb-3">
