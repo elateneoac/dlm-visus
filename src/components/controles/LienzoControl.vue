@@ -24,7 +24,7 @@
                 <hr class="my-2">
                 <div class="col-3">
                     <div class="input-group mb-3">
-                        <span class="input-group-text">izquierda</span>
+                        <span class="input-group-text">izq</span>
                         <input  :value="modelValue.margen.izquierda" @change="this.emitirMargen('izquierda', $event.target.value)" type="number" class="form-control">
                     </div>
                 </div>

@@ -1,8 +1,9 @@
 <template>
     <div class="container">
         <div class="input-group mb-3">
-            <span class="input-group-text">Path de csv a visualizar</span>
-            <input v-model.lazy="path_csv" type="text" class="form-control">
+            <!-- <span class="input-group-text">csv</span>
+            <input v-model.lazy="path_csv" type="text" class="form-control"> -->
+            <input class="input-csv" type="file" accept=".csv" @change="cargar">
         </div>
         <lienzo-control v-if="this.df" v-model="this.controles.lienzo"/>
     </div>
@@ -31,7 +32,7 @@ export default {
 
     watch: {
         path_csv(nuevo, viejo) {
-            this.leer_csv();
+            this.leer_csv(this.path_csv);
         },
         controles : {
             handler(nuevos, viejos) {
@@ -61,12 +62,19 @@ export default {
     },
 
     methods: {
-        descargar() {
-            download();
+        cargar(evento) {
+            const file = evento.target.files[0]
+            const reader = new FileReader()
+            reader.onload = () => {
+                const dataUrl = reader.result;
+                this.leer_csv(dataUrl);
+            }
+            reader.readAsDataURL(file)
         },
 
-        leer_csv() {
-            d3.csv(this.path_csv)
+        leer_csv(path) {
+            // d3.csv(this.path_csv)
+            d3.csv(path)
             .then( (data) => {
 
                 // armo frecuencia por fecha y diario:
