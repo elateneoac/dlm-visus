@@ -29,9 +29,9 @@
         </div>
         
         <div class="my-5"></div>
-        <EtiquetasControl v-if="this.grupo" v-model="etiquetas_parametros"/>
-        <div class="my-5"></div>
         <TituloControl v-model="titulo_parametros"/>
+        <div class="my-5"></div>
+        <EtiquetasControl v-if="this.grupo" v-model="etiquetas_parametros"/>
     </div>
 </template>
 

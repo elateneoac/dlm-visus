@@ -78,9 +78,9 @@
             </div>
         </div>
         <div class="my-5"></div>
-        <EtiquetasControl v-if="this.z" v-model="etiquetas_parametros"/>
-        <div class="my-5"></div>
         <TituloControl v-model="titulo_parametros"/>
+        <div class="my-5"></div>
+        <EtiquetasControl v-if="this.z" v-model="etiquetas_parametros"/>
         <div class="my-5"></div>
         <CuadriculaControl v-model="cuadricula"/>
     </div>
