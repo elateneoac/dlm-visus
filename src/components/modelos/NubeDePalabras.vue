@@ -2,7 +2,9 @@
     <div class="row text-center" style="background-color: lightgrey;">
         <div id="dibujo" class="my-3"></div>        
     </div>
-    <div class="container mt-3">
+    <div class="container my-3">
+        <TituloControl v-model="titulo_parametros"/>
+        <div class="my-3"></div>
         <div class="form-label my-0"><strong>GRÁFICO</strong></div>
         <hr class="my-2">
         <div class="row mb-3 justify-content-between">
@@ -28,9 +30,7 @@
             </div>
         </div>
         
-        <div class="my-5"></div>
-        <TituloControl v-model="titulo_parametros"/>
-        <div class="my-5"></div>
+        <div class="my-3"></div>
         <EtiquetasControl v-if="this.grupo" v-model="etiquetas_parametros"/>
     </div>
 </template>
