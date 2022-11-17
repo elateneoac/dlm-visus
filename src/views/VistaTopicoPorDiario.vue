@@ -51,13 +51,13 @@ export default {
         return {
             controles: {
                 lienzo: {
-                    alto : 700,
-                    ancho : 900,
+                    alto : 1080,
+                    ancho : 1080,
                     margen :{
-                        techo: 20,
-                        derecha: 20,
-                        piso: 30,
-                        izquierda: 80
+                        techo: 90,
+                        derecha: 40,
+                        piso: 50,
+                        izquierda: 150
                     }
                 },
             },

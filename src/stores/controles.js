@@ -39,8 +39,9 @@ export const controles = defineStore({
             .attr('fill', color)
             .attr('x', 0)
             .attr('y', 0)
-            .attr('class', 'fw-bolder')
-            .style('font', tamanio + 'pt serif')
+            .attr("font-weight", 700)
+            .attr("font-size", tamanio + 'pt')
+            .attr("font-family", 'serif')
             .text(texto)
 
         },
@@ -82,11 +83,15 @@ export const controles = defineStore({
                 const bbox = svg.getBBox();
 
                 const canvas = document.createElement('canvas');
-                canvas.width = bbox.width;
-                canvas.height = bbox.height;
+                // canvas.width = bbox.width;
+                // canvas.height = bbox.height;
+
+                canvas.width = svg.getAttribute('width');
+                canvas.height = svg.getAttribute('height');
 
                 const context = canvas.getContext('2d');
-                context.drawImage(img, 0, 0, bbox.width, bbox.height);
+                context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                // context.drawImage(img, 0, 0, ancho, alto);
 
                 URL.revokeObjectURL(url);
 

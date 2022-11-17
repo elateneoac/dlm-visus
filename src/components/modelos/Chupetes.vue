@@ -160,28 +160,28 @@
                     estetica : this.estetica
                 },
                 linea : {
-                    grosor : 2,
-                    color : 'grey',
+                    grosor : 40,
+                    color : 'darkcyan',
                 },
                 grafico: {
                     espaciado : 0,
-                    ticks : 50,
-                    tamaniox : 11,
-                    tamanioy : 11
+                    ticks : 200,
+                    tamaniox : 18,
+                    tamanioy : 18
                 },
                 circulo : {
-                    radio : 5,
-                    color : 'grey'
+                    radio : 0,
+                    color : 'darkcyan'
                 },
                 cuadricula : {
-                    mostrar : false,
+                    mostrar : true,
                     color : 'grey',
-                    grosor : 0.5
+                    grosor : 0.3
                 },
                 titulo_parametros : {
-                    x : 320,
-                    y : 50,
-                    tamanio : 14,
+                    x : 250,
+                    y : 60,
+                    tamanio : 40,
                     texto : "un gráfico de chupetes",
                     negrita : true,
                     cursiva : true,
@@ -214,10 +214,12 @@
                 return d3.select("#dibujo")
                     .append('svg')
                     .style('background-color', 'white')
-                    .attr('width', this.ancho + this.margen.izquierda + this.margen.derecha)
-                    .attr('height', this.alto + this.margen.techo + this.margen.piso)
+                    // .attr('width', this.ancho + this.margen.izquierda + this.margen.derecha)
+                    // .attr('height', this.alto + this.margen.techo + this.margen.piso)
+                    .attr('width', this.ancho)
+                    .attr('height', this.alto)
                     .append('g')
-                    .attr('transform', `translate(${[this.margen.izquierda, this.margen.techo]})`);
+                    // .attr('transform', `translate(${[this.margen.izquierda, this.margen.techo]})`);
             },
     
             resetear() {
@@ -227,6 +229,7 @@
             ejex() {
                 return d3.scaleLinear()
                 .domain([0, d3.max(this.df.map(d => d[this.x]))])
+                // .range([this.margen.izquierda, this.ancho - this.margen.derecha]);
                 .range([this.margen.izquierda, this.ancho - this.margen.derecha]);
             },
 
@@ -234,6 +237,7 @@
                 return d3.scaleBand()
                 .domain([
                     ...new Set(this.df.filter(d => this.etiquetas_parametros.estetica[d[this.y]].mostrar).map(d => this.etiquetas_parametros.estetica[d[this.y]].nombre))])
+                // .range([this.margen.techo, this.alto - this.margen.piso])
                 .range([this.margen.techo, this.alto - this.margen.piso])
                 .padding(1)
             },

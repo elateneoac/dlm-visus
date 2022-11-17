@@ -15,7 +15,7 @@
     await execa("git", ["--work-tree", folderName, "add", "--all"]);
     // await execa("git", ["add", "-A"]);
     await execa("git", ["--work-tree", folderName, "commit", "-m", "gh-pages"]);
-    console.log("Pushing to gh-pages...");
+    console.log("Subiendo a gh-page...");
     await execa("git", ["push", "origin", "HEAD:gh-pages", "--force"]);
     // await execa("rm", ["-r", folderName]);
     await execa("git", ["checkout", "-f", "main"]);
