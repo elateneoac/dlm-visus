@@ -388,9 +388,9 @@ watch(
 );
 
 var controles_margenes = ref({
-  izq: 100,
+  izq: 200,
   techo: 100,
-  der: 100,
+  der: 200,
   piso: 100,
 });
 watch(

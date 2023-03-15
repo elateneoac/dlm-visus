@@ -51,6 +51,9 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 
+import { usarLienzoStore } from '../../stores/lienzo.js' 
+const lienzoStore = usarLienzoStore()
+
 defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue"]);
 
@@ -64,6 +67,7 @@ var controles = ref({
 watch(
   controles,
   (nuevo, viejo) => {
+    lienzoStore.modificado = true
     emit("update:modelValue", nuevo);
   },
   { deep: true, immediate: true }
