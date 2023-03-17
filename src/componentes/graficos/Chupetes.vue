@@ -79,7 +79,7 @@ const dibujar = () => {
     .attr("y1", (d) => y(d.etiqueta) + offsets.get(d.grupo))
     .attr("y2", (d) => y(d.etiqueta) + offsets.get(d.grupo))
     .attr("stroke", (d) => d.color)
-    .attr("stroke-width", grosor);
+    .attr("stroke-width", (d) => d.valor ? grosor : 0);
 
   // dibujo ejex
   svg
@@ -115,7 +115,7 @@ const dibujar = () => {
     .attr("class", (d) => d.grupo)
     .attr("cx", (d) => x(d.valor))
     .attr("cy", (d) => y(d.etiqueta) + offsets.get(d.grupo))
-    .attr("r", radio)
+    .attr("r", (d) => d.valor ? radio : 0)
     .style("fill", (d) => d.color);
 };
 

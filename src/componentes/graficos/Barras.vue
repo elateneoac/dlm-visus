@@ -70,7 +70,7 @@ const dibujar = () => {
     .attr("y1", (d) => y(d.etiqueta))
     .attr("y2", (d) => y(d.etiqueta))
     .attr("stroke", (d) => d.color)
-    .attr("stroke-width", grosor);
+    .attr("stroke-width", (d) => d.valor ? grosor : 0);
 
   // bolas
   svg
@@ -83,8 +83,23 @@ const dibujar = () => {
     .attr("class", (d) => d.grupo)
     .attr("cx", (d) => x(d.valor))
     .attr("cy", (d) => y(d.etiqueta))
-    .attr("r", grosor * 0.5)
+    .attr("r", (d) => d.valor ? grosor * 0.5 : 0)
     .style("fill", (d) => d.color);
+
+  // numero
+  svg
+    .append("g")
+    .attr("id", "numeros")
+    .selectAll()
+    .data(tuplas)
+    .enter()
+    .append("text")
+    .attr("class", (d) => d.grupo)
+    .attr("x", (d) => x(d.valor) + grosor)
+    .attr("y", (d) => y(d.etiqueta) + grosor * 0.35)
+    .attr("font-size", grosor)
+    .attr("font-family", "Arial")
+    .text((d) => d.valor ? d.valor : '');
 
   // dibujo ejex
   svg
