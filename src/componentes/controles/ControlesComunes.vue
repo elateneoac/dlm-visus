@@ -307,7 +307,7 @@
                           <input
                           type="button"
                           value="-"
-                          @click="controles_textos.textos.pop(index)"
+                          @click="controles_textos.textos.splice(index, 1)"
                           >
                         </div>
                         <div class="col-2 p-0 text-center">
