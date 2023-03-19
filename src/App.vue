@@ -7,3 +7,7 @@
 <script setup>
 import navbar from "./componentes/NavBar.vue";
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@100&display=swap');
+</style>
