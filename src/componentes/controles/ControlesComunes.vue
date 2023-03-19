@@ -32,7 +32,7 @@
                   >
                     <option
                       v-for="columna in columnas.numeros"
-                      :value="columna"
+                      :value="columna.trim()"
                     >
                       {{ columna }}
                     </option>
@@ -58,7 +58,7 @@
                     <template v-if="ruta.name !== 'series'">
                       <option
                         v-for="columna in columnas.textos"
-                        :value="columna"
+                        :value="columna.trim()"
                       >
                         {{ columna }}
                       </option>
@@ -66,7 +66,7 @@
                     <template v-else>
                       <option
                         v-for="columna in columnas.fechas"
-                        :value="columna"
+                        :value="columna.trim()"
                       >
                         {{ columna }}
                       </option>
@@ -88,7 +88,7 @@
                   >
                     <option
                       v-for="columna in [...columnas.textos, '']"
-                      :value="columna"
+                      :value="columna.trim()"
                     >
                       {{ columna }}
                     </option>
