@@ -52,6 +52,29 @@
           </div>
           <template v-for="(value, key) in modelValue.grupos">
             <div class="row">
+              <div class="col-1">
+                <input
+                type="checkbox"
+                id="checkbox"
+                :checked="value.ver"
+                @change="
+                    emit('update:modelValue', {
+                      grupos: {
+                        ...modelValue.grupos,
+                        [key]: { ...modelValue.grupos[key], ver : $event.target.checked },
+                      },
+                      tuplas: modelValue.tuplas.map((d) =>
+                        d.grupo == key
+                          ? {
+                              ...d,
+                              ver : $event.target.checked
+                            }
+                          : d
+                      ),
+                    })
+                  "
+                >
+              </div>
               <div class="col">
                 <label :for="'color-' + key" class="fst-italic">{{
                   key
@@ -92,6 +115,26 @@
           </div>
           <template v-for="(value, i) in modelValue.tuplas">
             <div class="row">
+              <div class="col-1">
+                <input
+                type="checkbox"
+                id="checkbox"
+                :checked="value.ver"
+                @change="
+                    emit('update:modelValue', {
+                      ...modelValue,
+                      tuplas: modelValue.tuplas.map((d) =>
+                          d.etiqueta == value.etiqueta && d.grupo == value.grupo
+                          ? {
+                              ...d,
+                              ver: $event.target.checked,
+                            }
+                          : d
+                      ),
+                    })
+                  "
+                >
+              </div>
               <div class="col">
                 <span>
                   {{ value.etiqueta }}

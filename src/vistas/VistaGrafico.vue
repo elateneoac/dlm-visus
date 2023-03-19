@@ -6,7 +6,7 @@
         <controles-comunes
           :mostrar="!es_inicio"
           v-model:lienzo="parametros_lienzo"
-          v-model:titulo="parametros_titulo"
+          v-model:textos="parametros_textos"
           v-model:margenes="parametros_margenes"
           @levantar="levantar"
           @dibujar="dibujar"
@@ -22,11 +22,7 @@
           :ancho="parametros_lienzo.ancho"
           :alto="parametros_lienzo.alto"
           :fondo="parametros_lienzo.fondo"
-          :titulo_color="parametros_titulo.color"
-          :titulo_x="parametros_titulo.x"
-          :titulo_y="parametros_titulo.y"
-          :titulo_tamanio="parametros_titulo.tamanio"
-          :titulo_texto="parametros_titulo.texto"
+          :textos="parametros_textos.textos"
         />
 
         <slot
@@ -68,7 +64,7 @@ const ruta = useRoute();
 const es_inicio = computed(() => ruta.name == "inicio");
 
 var parametros_lienzo = ref({});
-var parametros_titulo = ref({});
+var parametros_textos = ref({});
 var parametros_margenes = ref({});
 var parametros_leyenda = ref({});
 
@@ -82,11 +78,6 @@ const color = (color) => {
 };
 
 const dibujar = ({ contenido, entrada, color }) => {
-  // entrada = { 
-  //   etiquetas : entrada.etiquetas.trim(),
-  //   valores : entrada.valores.trim(),
-  //   grupos : entrada.grupos !== undefined ? entrada.grupos.trim() : undefined,
-  // }
   d3.csv(contenido).then((filas) => {
     let grupos = ["", undefined].includes(entrada.grupos) ? undefined : [];
 
@@ -99,7 +90,7 @@ const dibujar = ({ contenido, entrada, color }) => {
         clave += "_" + grupo;
 
         if (!(grupo in data.value.grupos)) {
-          data.value.grupos[grupo] = { color: str2hexacolor(grupo) };
+          data.value.grupos[grupo] = { ver : true, color: str2hexacolor(grupo) };
         }
       }
 
@@ -123,7 +114,7 @@ const dibujar = ({ contenido, entrada, color }) => {
       const grupo = grupos !== undefined ? c[0].split("_")[1] : null;
 
       color = grupos !== undefined ? data.value.grupos[grupo].color : color;
-      tuplas.push({ valor, etiqueta, grupo, color });
+      tuplas.push({ valor, etiqueta, grupo, color , ver : true });
     }
     data.value.tuplas = tuplas;
   });

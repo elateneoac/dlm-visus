@@ -43,7 +43,7 @@ const dibujar = () => {
   
   const top = props.top;
 
-  const tuplas = props.data.tuplas.slice(0, top);
+  const tuplas = props.data.tuplas.filter((d) => d.ver).slice(0, top);
 
   const x = d3
     .scaleLinear()

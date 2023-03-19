@@ -271,56 +271,82 @@
           </div>
 
           <div class="row mb-3">
-            <div class="col-8">
-              <div class="row">
-                <label for="color-fondo" class="fw-bold">Título</label>
-              </div>
-              <div class="row">
-                <textarea
-                  v-model="controles_titulo.texto"
-                  type="text-area"
-                  id="titulo-texto"
-                  class="col-12"
-                ></textarea>
-              </div>
-            </div>
-            <div class="col-4 my-auto">
-              <input
-                v-model="controles_titulo.color"
-                type="color"
-                id="color-titulo"
-                title="color de titulo"
-              />
-            </div>
-          </div>
-          <div class="row mb-3">
             <div class="col">
-              <div class="row">
-                <div class="col-4 text-center">
-                  Tamanio
+              <div class="row mb-2">
+                <div class="col-auto">
+                  <label for="color-fondo" class="fw-bold">Textos</label>
+                </div>
+                <div class="col">
                   <input
-                    v-model="controles_titulo.tamanio"
-                    type="number"
-                    id="titulo-tamanio"
-                    class="col-12"
-                  />
+                  type="button"
+                  value="agregar"
+                  @click="  controles_textos.textos.push({
+                    texto: 'nuevo texto',
+                    color : '#000000',
+                    tamanio : 30,
+                    y : Math.floor(Math.random() * controles_lienzo.alto),
+                    x : Math.floor(Math.random() * controles_lienzo.ancho),
+                  })">
                 </div>
-                <div class="col-4 text-center">
-                  x<input
-                    v-model="controles_titulo.x"
-                    type="number"
-                    id="titulo-x"
-                    class="col-12"
-                  />
-                </div>
-                <div class="col-4 text-center">
-                  y<input
-                    v-model="controles_titulo.y"
-                    type="number"
-                    id="titulo-y"
-                    class="col-12"
-                  />
-                </div>
+              </div>
+              <div id="textos" class="row">
+                <label v-if="controles_textos.textos.length == 0">(sin textos)</label>
+                <template v-for="(texto, index) in controles_textos.textos">
+                  <div class="row mb-3">
+                    <div class="col">
+                      <div class="row">
+                        <textarea
+                        v-model="controles_textos.textos[index].texto"
+                        class="col-12 m-auto"
+                        style="height: 100%"
+                        >
+                      </textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-1 p-0 text-center mt-auto">
+                          <input
+                          type="button"
+                          value="-"
+                          @click="controles_textos.textos.pop(index)"
+                          >
+                        </div>
+                        <div class="col-2 p-0 text-center">
+                          color
+                          <input
+                          v-model="controles_textos.textos[index].color"
+                          type="color"
+                          title="color de titulo"
+                          class="col-12"
+                          />
+                        </div>
+                        <div class="col-3 p-0 text-center">
+                          tamanio
+                          <input
+                          v-model="controles_textos.textos[index].tamanio"
+                          type="number"
+                          class="col-12"
+                          />
+                        </div>
+                        <div class="col-3 p-0 text-center">
+                          x
+                          <input
+                          v-model="controles_textos.textos[index].x"
+                          type="number"
+                          class="col-12"
+                          />
+                        </div>
+                        <div class="col-3 p-0 text-center">
+                          y
+                          <input
+                          v-model="controles_textos.textos[index].y"
+                          type="number"
+                          class="col-12"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </template>
               </div>
             </div>
           </div>
@@ -344,7 +370,7 @@ const ruta = useRoute();
 // props
 const mostrar = defineProps(["mostrar", "modelValue"]);
 
-const emit = defineEmits(["update:lienzo", "update:titulo", "update:margenes"]);
+const emit = defineEmits(["update:lienzo", "update:textos", "update:margenes"]);
 
 var dibujando = ref(false);
 var levantando = ref(false);
@@ -361,7 +387,7 @@ var descarga = ref("visu.png");
 var controles_lienzo = ref({
   alto: 1080,
   ancho: 1080,
-  fondo: "#FFFFFF",
+  fondo: "#FFFFFF"
 });
 watch(
   controles_lienzo,
@@ -372,17 +398,13 @@ watch(
   { deep: true, immediate: true }
 );
 
-var controles_titulo = ref({
-  texto: "",
-  color: "#000000",
-  tamanio: 40,
-  x: 250,
-  y: 100,
+var controles_textos = ref({
+  textos : []
 });
 watch(
-  controles_titulo,
+  controles_textos,
   (nuevo) => {
-    emit("update:titulo", nuevo);
+    emit("update:textos", nuevo);
   },
   { deep: true, immediate: true }
 );
@@ -490,4 +512,5 @@ const descargar = () => {
   });
   img.src = url;
 };
+
 </script>

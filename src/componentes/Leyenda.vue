@@ -26,7 +26,7 @@ watch(
       .attr("id", "leyenda")
       .attr("transform", `translate(${x},${y})`);
 
-    const data = Object.entries(grupos).map(([k, v]) => ({
+    const data = Object.entries(grupos).filter((d) => d[1].ver).map(([k, v]) => ({
       grupo: k,
       valores: v,
     }));
