@@ -11,7 +11,7 @@
         :x="props.titulo_x"
         :y="props.titulo_y"
         :font-size="props.titulo_tamanio + 'pt'"
-        font-family="Merienda"
+        font-family="Roboto Serif"
       >
         {{ props.titulo_texto }}
       </text>

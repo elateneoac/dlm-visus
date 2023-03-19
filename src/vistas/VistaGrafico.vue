@@ -85,7 +85,7 @@ const dibujar = ({ contenido, entrada, color }) => {
   entrada = { 
     etiquetas : entrada.etiquetas.trim(),
     valores : entrada.valores.trim(),
-    grupos : entrada.grupos.trim(),
+    grupos : entrada.grupos !== undefined ? entrada.grupos.trim() : undefined,
   }
   d3.csv(contenido).then((filas) => {
     let grupos = ["", undefined].includes(entrada.grupos) ? undefined : [];
