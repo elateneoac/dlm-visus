@@ -25,7 +25,8 @@ const dibujar = () => {
 
   const svg = d3.select("#lienzo").append("g").attr("id", "nube");
 
-  const tuplas = props.data.tuplas.map((d) => ({ ...d }));
+  // const tuplas = props.data.tuplas.filter((d) => d.ver).map((d) => ({ ...d }));
+  const tuplas = props.data.tuplas.filter((d) => d.ver).map((d) => ({ ...d }));
 
   const ancho = props.ancho;
   const alto = props.alto;

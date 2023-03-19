@@ -27,7 +27,7 @@ const dibujar = () => {
 
   const svg = d3.select("#lienzo").append("g").attr("id", "chupetes");
 
-  const data = props.data.tuplas;
+  const data = props.data.tuplas.filter((d) => d.ver);
 
   const ancho = props.ancho;
   const alto = props.alto;

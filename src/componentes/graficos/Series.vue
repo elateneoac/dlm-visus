@@ -26,7 +26,7 @@ const dibujar = () => {
 
   const svg = d3.select("#lienzo").append("g").attr("id", "series");
 
-  const data = props.data.tuplas.map((d) => ({
+  const data = props.data.tuplas.filter((d) => d.ver).map((d) => ({
     ...d,
     etiqueta: new Date(d.etiqueta + "T00:00:00"),
   }));
