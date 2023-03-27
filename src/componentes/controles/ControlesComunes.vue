@@ -460,7 +460,7 @@ const levantar = (e) => {
       .map((v, i) => (isNaN(v) ? i : -1))
       .filter((v) => v >= 0 && !indices_que_son_fechas.includes(v));
     let indices_que_son_numeros = valores
-      .map((v, i) => (!isNaN(v) ? i : -1))
+      .map((v, i) => (!isNaN(v) && v !== '' ? i : -1))
       .filter((v) => v >= 0);
 
     columnas.value.textos = nombres_columnas.filter((_, i) =>

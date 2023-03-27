@@ -88,7 +88,10 @@
                     emit('update:modelValue', {
                       grupos: {
                         ...modelValue.grupos,
-                        [key]: { color: $event.target.value },
+                        [key]: {
+                          ...modelValue.grupos[key],
+                          color: $event.target.value
+                        },
                       },
                       tuplas: modelValue.tuplas.map((d) =>
                         d.grupo == key
