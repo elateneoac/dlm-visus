@@ -116,9 +116,13 @@ const dibujar = ({ contenido, entrada, color }) => {
       const etiqueta = c[0].split("_")[0];
       const grupo = grupos !== undefined ? c[0].split("_")[1] : null;
 
-      color = grupos !== undefined ? data.value.grupos[grupo].color : color;
+      let color_ = grupos !== undefined ? data.value.grupos[grupo].color : color;
+      color_ = data.value.colores !== undefined && etiqueta in data.value.colores ? data.value.colores[etiqueta] : color_;
+
       let ver = grupos !== undefined ? data.value.grupos[grupo].ver : true;
-      tuplas.push({ valor, etiqueta, grupo, color , ver});
+      ver = data.value.visibilidad !== undefined && etiqueta in data.value.visibilidad ? data.value.visibilidad[etiqueta] : ver;
+
+      tuplas.push({ valor, etiqueta, grupo, color : color_ , ver});
     }
     data.value.tuplas = tuplas;
   });

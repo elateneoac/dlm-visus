@@ -134,6 +134,10 @@
                             }
                           : d
                       ),
+                      visibilidad : {
+                        ...modelValue.visibilidad,
+                        [value.etiqueta] : $event.target.checked
+                      }
                     })
                   "
                 >
@@ -161,6 +165,10 @@
                             }
                           : d
                       ),
+                      colores : {
+                        ...modelValue.colores,
+                        [value.etiqueta] : $event.target.value
+                      }
                     })
                   "
                   class="form-control form-control-color"
