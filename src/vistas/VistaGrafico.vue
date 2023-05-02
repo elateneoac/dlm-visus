@@ -83,7 +83,7 @@ const dibujar = ({ contenido, entrada, color }) => {
     let grupos = ["", undefined].includes(entrada.grupos) ? undefined : [];
 
     let conteo = {};
-    data.value.grupos = {};
+    data.value.grupos = [null, undefined].includes(data.value.grupos) ? {} : data.value.grupos;
     filas.forEach((fila) => {
       let clave = fila[entrada.etiquetas];
       if (grupos !== undefined) {
@@ -91,7 +91,9 @@ const dibujar = ({ contenido, entrada, color }) => {
         clave += "_" + grupo;
 
         if (!(grupo in data.value.grupos)) {
-          data.value.grupos[grupo] = { ver : true, color: str2hexacolor(grupo) };
+          data.value.grupos[grupo] = {
+            ver : true,
+            color: str2hexacolor(grupo)};
         }
       }
 
@@ -115,7 +117,8 @@ const dibujar = ({ contenido, entrada, color }) => {
       const grupo = grupos !== undefined ? c[0].split("_")[1] : null;
 
       color = grupos !== undefined ? data.value.grupos[grupo].color : color;
-      tuplas.push({ valor, etiqueta, grupo, color , ver : true });
+      let ver = grupos !== undefined ? data.value.grupos[grupo].ver : true;
+      tuplas.push({ valor, etiqueta, grupo, color , ver});
     }
     data.value.tuplas = tuplas;
   });
