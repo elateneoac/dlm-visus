@@ -6,15 +6,6 @@
       :width="props.ancho"
       :height="props.alto"
     >
-      <!-- <text
-        :fill="props.titulo_color"
-        :x="props.titulo_x"
-        :y="props.titulo_y"
-        :font-size="props.titulo_tamanio + 'pt'"
-        font-family="Roboto Serif"
-      >
-        {{ props.titulo_texto }}
-      </text> -->
       <template v-for="(texto, index) in props.textos">
         <text
         :fill="texto.color"
@@ -36,10 +27,5 @@ const props = defineProps([
   "alto",
   "fondo",
   "textos"
-  // "titulo_color",
-  // "titulo_x",
-  // "titulo_y",
-  // "titulo_tamanio",
-  // "titulo_texto",
 ]);
 </script>

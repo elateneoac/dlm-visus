@@ -284,8 +284,8 @@
                     texto: 'nuevo texto',
                     color : '#000000',
                     tamanio : 30,
-                    y : Math.floor(Math.random() * controles_lienzo.alto),
-                    x : Math.floor(Math.random() * controles_lienzo.ancho),
+                    y : Math.floor(Math.random() * 100) + 20,
+                    x : Math.floor(Math.random() * (controles_lienzo.ancho - 400)) + 50,
                   })">
                 </div>
               </div>
